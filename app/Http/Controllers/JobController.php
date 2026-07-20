@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Job;
 use App\Models\Category;
