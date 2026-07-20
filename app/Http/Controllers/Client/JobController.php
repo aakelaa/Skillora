@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJobRequest;
 use App\Models\Category;
@@ -92,6 +93,6 @@ class JobController extends Controller
 
     private function authorizeOwner(Job $job)
     {
-        abort_unless($job->client_id === auth()->id(), 403);
+        abort_unless($job->client_id === Auth::id(), 403);
     }
 }
