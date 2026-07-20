@@ -30,4 +30,15 @@ class JobController extends Controller
 
         return view('jobs.show', compact('job'));
     }
+
+    // POST /jobs/{id}/apply
+    public function apply(ApplyToJobRequest $request, Job $job)
+    {
+        Application::updateOrCreate(
+            ['job_id' => $job->id, 'freelancer_id' => $request->user()->id],
+            ['cover_letter' => $request->validated()['cover_letter'], 'status' => 'pending']
+        );
+
+        return back()->with('success', 'Your application has been submitted!');
+    }
 }

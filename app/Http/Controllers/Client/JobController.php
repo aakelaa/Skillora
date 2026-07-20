@@ -1,105 +1,97 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreJobRequest;
 use App\Models\Category;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class JobController extends Controller
 {
-    public function index ()
+    // GET /client/jobs
+    public function index(Request $request)
     {
-        $jobs = Job::all();
-        return view ('jobs.index', compact('jobs'));
+        $jobs = $request->user()->jobs()
+            ->withCount('applications')
+            ->latest()
+            ->paginate(10);
+
+        return view('client.jobs.index', compact('jobs'));
     }
 
-    public function create ()
+    // GET /client/jobs/create
+    public function create()
     {
         $categories = Category::all();
-         return view ('jobs.create', compact('categories'));
+
+        return view('client.jobs.create', compact('categories'));
     }
 
-    public function store (Request $request)
+    // POST /client/jobs
+    public function store(StoreJobRequest $request)
     {
-        $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'category_id' => 'required|exists:categories,id',
-        'budget' => 'required|numeric|min:0',
-        'deadline' => 'required|date',
-        'attachment' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-        'status' => 'required|string|max:50',
-        'client_id' => 'required|exists:users,id',
-]);
-
-        $attachmentPath = null;
+        $data = $request->validated();
 
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('attachments', 'public');
+            // organize uploads by user-ID folder
+            $data['attachment_path'] = $request->file('attachment')
+                ->store("uploads/{$request->user()->id}/attachments", 'public');
         }
 
-        Job::create([
-         'title'=> $request->title,
-         'description'=> $request->description,
-         'category_id'=> $request->category_id,
-         'budget'=> $request->budget,
-         'deadline'=> $request->deadline,
-         'attachment'=> $attachmentPath,
-         'status'=> $request->status,
-         'client_id'=> $request->client_id,
-        ]);
+        $data['client_id'] = $request->user()->id;
+        $data['status'] = 'open';
 
-        return redirect()->route('jobs.index')->with('success', 'Job Added Successfully');
+        Job::create($data);
+
+        return redirect()->route('client.jobs.index')->with('success', 'Job posted successfully!');
     }
 
-    public function show (Job $job)
+    // GET /client/jobs/{job}/edit
+    public function edit(Job $job)
     {
-        return view ('jobs.show', compact('job'));
+        $this->authorizeOwner($job);
 
+        $categories = Category::all();
+
+        return view('client.jobs.edit', compact('job', 'categories'));
     }
 
-    public function edit (Job $job)
+    // PUT/PATCH /client/jobs/{job}
+    public function update(StoreJobRequest $request, Job $job)
     {
-        return view('jobs.edit', compact('job'));
+        $this->authorizeOwner($job);
+
+        $data = $request->validated();
+
+        if ($request->hasFile('attachment')) {
+            if ($job->attachment_path) {
+                Storage::disk('public')->delete($job->attachment_path);
+            }
+            $data['attachment_path'] = $request->file('attachment')
+                ->store("uploads/{$request->user()->id}/attachments", 'public');
+        }
+
+        $job->update($data);
+
+        return redirect()->route('client.jobs.index')->with('success', 'Job updated successfully!');
     }
 
-    public function update (Request $request, Job $job)
+    // DELETE /client/jobs/{job}  (soft delete)
+    public function destroy(Job $job)
     {
-         $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'category_id' => 'required|exists:categories,id',
-        'budget' => 'required|numeric|min:0',
-        'deadline' => 'required|date',
-        'attachment' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-        'status' => 'required|string|max:50',
-        'client_id' => 'required|exists:users,id',
-         ]);
+        $this->authorizeOwner($job);
 
-         $attachmentPath = $job->attachment;
+        $job->delete(); // soft delete, row is preserved
 
-         if ($request->hasFile('attachment')) {
-             $attachmentPath = $request->file('attachment')->store('attachments', 'public');
-         }
-
-         $job->update ([
-        'title'=> $request->title,
-         'description'=> $request->description,
-         'category_id'=> $request->category_id,
-         'budget'=> $request->budget,
-         'deadline'=> $request->deadline,
-         'attachment'=> $attachmentPath,
-         'status'=> $request->status,
-         'client_id'=> $request->client_id,
-         ]);
-
-         return redirect()->route('jobs.index')->with('success', 'Job Updated Successfully');
+        return redirect()->route('client.jobs.index')->with('success', 'Job deleted.');
     }
 
-    public function destroy (Job $job)
+    private function authorizeOwner(Job $job)
     {
-        $job->delete();
-        return redirect()->route('jobs.index')->with('success', 'Job Deleted Successfully');
-
+        abort_unless($job->client_id === auth()->id(), 403);
     }
 }
