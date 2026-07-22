@@ -63,4 +63,4 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('categories', AdminCategoryController::class)->except(['show']);
     });
 
-require __DIR__.'/auth.php'; // provided by Laravel Breeze (includes logout route)
+require __DIR__.'/auth.php';

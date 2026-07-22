@@ -47,4 +47,47 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+        // ---- Role helpers ----
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isClient(): bool
+    {
+        return $this->role === 'client';
+    }
+
+    public function isFreelancer(): bool
+    {
+        return $this->role === 'freelancer';
+    }
+
+    // ---- Relationships ----
+
+    // Client hasMany Jobs (one-to-many)
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'client_id');
+    }
+
+    // Freelancer hasOne Profile (one-to-one)
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    // Freelancer belongsToMany Jobs via applications pivot (many-to-many)
+    public function appliedJobs()
+    {
+        return $this->belongsToMany(Job::class, 'applications', 'freelancer_id', 'job_id')
+            ->withPivot('cover_letter', 'status')
+            ->withTimestamps();
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'freelancer_id');
+    }
 }

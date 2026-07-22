@@ -2,54 +2,55 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Job extends Model
-
 {
-    use SoftDeletes;
-    protected $table = 'job_posts';
-    protected $fillable = [
-        'title',
-        'description',
-        'category_id',
-        'budget',
-        'deadline',
-        'attachment',
-        'status',
-        'client_id',
+    use HasFactory, SoftDeletes;
 
+    protected $table = 'job_posts';
+
+    protected $fillable = [
+        'client_id', 'category_id', 'title', 'description',
+        'budget', 'deadline', 'status', 'attachment_path',
     ];
 
-    //categoryy
-    public function category()
+    protected function casts(): array
     {
-        return $this->belongsTo(Category::class);
+        return [
+            'deadline' => 'datetime',
+        ];
     }
 
-    //client
+    // ---- Relationships ----
+
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    //Job belongsToMany Freelancer via applications pivot (many-to-many)
-    public function freelancer()
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    // Job belongsToMany Freelancer via applications pivot (many-to-many)
+    public function freelancers()
     {
         return $this->belongsToMany(User::class, 'applications', 'job_id', 'freelancer_id')
-        ->withPivot('cover_letter')
-        ->withTimestamps();
-
+            ->withPivot('cover_letter', 'status')
+            ->withTimestamps();
     }
 
     public function applications()
     {
-
         return $this->hasMany(Application::class);
     }
 
-    //query open scope
+    // ---- Query scope: open() ----
     public function scopeOpen($query)
     {
         return $query->where('status', 'open');

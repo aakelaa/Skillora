@@ -11,19 +11,21 @@ use App\Http\Requests\ApplyToJobRequest;
 class JobController extends Controller
 {
       // GET /jobs
-    public function index()
-    {
-        $jobs = Job::query()
-            ->open()
-            ->with(['client', 'category'])
-            ->latest()
-            ->paginate(10);
+ // GET /jobs
+public function index(Request $request)
+{
+    $jobs = Job::query()
+        ->open()
+        ->with(['client', 'category'])
+        ->when($request->keyword, fn ($q) => $q->where('title', 'like', "%{$request->keyword}%"))
+        ->when($request->category, fn ($q) => $q->where('category_id', $request->category))
+        ->latest()
+        ->paginate(10);
 
-        $categories = Category::all();
+    $categories = Category::all();
 
-        return view('jobs.index', compact('jobs', 'categories'));
-    }
-
+    return view('jobs.index', compact('jobs', 'categories'));
+}
     // GET /jobs/{id}
     public function show(Job $job)
     {
