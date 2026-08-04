@@ -18,7 +18,7 @@ return new class extends Migration
           $table->text('description');
           $table->decimal('budget', 10, 2);
           $table->date('deadline');
-          $table->string('attachment')->nullable();
+          $table->string('attachment_path')->nullable();
           $table->string('status')->default('open');
           $table->foreignId('client_id')->constrained('users')->cascadeOnDelete();
           $table->foreignId('category_id')->constrained()->cascadeOnDelete();

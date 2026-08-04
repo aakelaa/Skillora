@@ -50,7 +50,7 @@ class Job extends Model
         return $this->hasMany(Application::class);
     }
 
-    // ---- Query scope: open() ----
+    // Query scope
     public function scopeOpen($query)
     {
         return $query->where('status', 'open');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJobRequest;
@@ -21,7 +22,7 @@ class JobController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('client.jobs.index', compact('jobs'));
+        return view('clients.jobs.index', compact('jobs'));
     }
 
     // GET /client/jobs/create
@@ -29,7 +30,7 @@ class JobController extends Controller
     {
         $categories = Category::all();
 
-        return view('client.jobs.create', compact('categories'));
+        return view('clients.jobs.create', compact('categories'));
     }
 
     // POST /client/jobs
@@ -37,9 +38,9 @@ class JobController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('attachment')) {
+        if ($request->hasFile('attachment_path')) {
             // organize uploads by user-ID folder
-            $data['attachment_path'] = $request->file('attachment')
+            $data['attachment_path'] = $request->file('attachment_path')
                 ->store("uploads/{$request->user()->id}/attachments", 'public');
         }
 
@@ -48,7 +49,7 @@ class JobController extends Controller
 
         Job::create($data);
 
-        return redirect()->route('client.jobs.index')->with('success', 'Job posted successfully!');
+        return redirect()->route('clients.jobs.index')->with('success', 'Job posted successfully!');
     }
 
     // GET /client/jobs/{job}/edit
@@ -58,7 +59,7 @@ class JobController extends Controller
 
         $categories = Category::all();
 
-        return view('client.jobs.edit', compact('job', 'categories'));
+        return view('clients.jobs.edit', compact('job', 'categories'));
     }
 
     // PUT/PATCH /client/jobs/{job}
@@ -68,17 +69,17 @@ class JobController extends Controller
 
         $data = $request->validated();
 
-        if ($request->hasFile('attachment')) {
+        if ($request->hasFile('attachment_path')) {
             if ($job->attachment_path) {
                 Storage::disk('public')->delete($job->attachment_path);
             }
-            $data['attachment_path'] = $request->file('attachment')
+            $data['attachment_path'] = $request->file('attachment_path')
                 ->store("uploads/{$request->user()->id}/attachments", 'public');
         }
 
         $job->update($data);
 
-        return redirect()->route('client.jobs.index')->with('success', 'Job updated successfully!');
+        return redirect()->route('clients.jobs.index')->with('success', 'Job updated successfully!');
     }
 
     // DELETE /client/jobs/{job}  (soft delete)
@@ -88,9 +89,38 @@ class JobController extends Controller
 
         $job->delete(); // soft delete, row is preserved
 
-        return redirect()->route('client.jobs.index')->with('success', 'Job deleted.');
+        return redirect()->route('clients.jobs.index')->with('success', 'Job deleted.');
+    }
+     // GET /client/jobs/{job}/applications
+    public function applications(Job $job)
+    {
+        $this->authorizeOwner($job);
+
+        $applications = $job->applications()->with('freelancer')->latest()->get();
+
+        return view('clients.jobs.applications', compact('job', 'applications'));
     }
 
+    // PUT /client/applications/{application}/hire
+    public function hire(Application $application)
+    {
+        abort_unless($application->job->client_id === Auth::id(), 403);
+
+        $application->update(['status' => 'hired']);
+        $application->job->update(['status' => 'hired']);
+
+        return back()->with('success', 'Freelancer hired successfully!');
+    }
+
+    // PUT /client/applications/{application}/reject
+    public function reject(Application $application)
+    {
+        abort_unless($application->job->client_id === Auth::id(), 403);
+
+        $application->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Application rejected.');
+    }
     private function authorizeOwner(Job $job)
     {
         abort_unless($job->client_id === Auth::id(), 403);

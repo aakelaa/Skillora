@@ -32,8 +32,7 @@ class FreelancerProfileController extends Controller
         }
 
         if ($request->hasFile('portfolio_image')) {
-            $data['portfolio_image_path'] = $request->file('portfolio_image')
-                ->store("uploads/{$userId}/portfolio", 'public');
+            $data['portfolio_image_path'] = $request->file('portfolio_image')->store("uploads/{$userId}/portfolio", 'public');
         }
 
         $request->user()->profile()->updateOrCreate(['user_id' => $userId], $data);

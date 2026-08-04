@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'FreelanceHub')</title>
+    <title>@yield('title', 'WorkBridge')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50">
-    <div class="min-h-screen flex flex-col items-center justify-center px-4">
-        <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600 mb-6">FreelanceHub</a>
+<body class="bg-blue-50">
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+        <a href="{{ route('home') }}" class="text-3xl font-bold text-gray-900 mb-8">
+            Work<span class="text-indigo-600">Bridge</span>
+        </a>
 
-        <div class="w-full max-w-md bg-white shadow-sm border rounded-lg p-6">
+        <div class="w-full max-w-md bg-white shadow-sm border rounded-xl p-8">
             @if (session('status'))
                 <div class="mb-4 text-sm font-medium text-green-600">
                     {{ session('status') }}

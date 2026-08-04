@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Application;
 use Illuminate\Http\Request;
 
 
@@ -13,18 +14,17 @@ class DashboardController extends Controller
         $user = $request->user();
 
         $stats = [
-            'total_jobs' => $user->jobs()->count(),
-            'open_jobs' => $user->jobs()->open()->count(),
-            'applications_received' => \App\Models\Application::whereHas(
+            'active_jobs' => $user->jobs()->open()->count(),
+            'applications_received' => Application::whereHas(
                 'job', fn ($q) => $q->where('client_id', $user->id)
             )->count(),
-            'hired_count' => \App\Models\Application::whereHas(
+            'hired_count' => Application::whereHas(
                 'job', fn ($q) => $q->where('client_id', $user->id)
             )->where('status', 'hired')->count(),
         ];
 
-        $recentJobs = $user->jobs()->withCount('applications')->latest()->take(5)->get();
+        $jobs = $user->jobs()->withCount('applications')->latest()->take(5)->get();
 
-        return view('client.dashboard', compact('stats', 'recentJobs'));
+        return view('clients.dashboard', compact('stats', 'jobs'));
     }
 }

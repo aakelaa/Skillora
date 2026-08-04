@@ -4,11 +4,15 @@
 
 @section('content')
 
-    {{--  HERO SECTION --}}
+    {{-- ================= HERO SECTION ================= --}}
     <div class="-mx-4 -mt-8 bg-blue-50 px-4 pt-16 pb-20 text-center">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 max-w-3xl mx-auto leading-tight">
             Find Your Dream Freelance Project or Hire Top Talent
         </h1>
+        <p class="text-gray-500 max-w-xl mx-auto mt-4">
+            WorkBridge connects clients with skilled freelancers — post a job in minutes,
+            or browse open opportunities and start applying today.
+        </p>
 
         <form method="GET" action="{{ route('jobs.index') }}"
               class="mt-8 max-w-2xl mx-auto bg-white rounded-lg shadow-sm border flex overflow-hidden">
@@ -38,9 +42,17 @@
                 </svg>
             </button>
         </form>
+
+        @guest
+            <div class="mt-6">
+                <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-6 py-2.5 rounded-md text-sm font-medium hover:bg-indigo-700">
+                    Get Started — It's Free
+                </a>
+            </div>
+        @endguest
     </div>
 
-    {{-- JOB CARDS GRID --}}
+    {{-- ================= JOB CARDS GRID ================= --}}
     <div class="py-10">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold">Latest Opportunities</h2>
@@ -50,8 +62,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             @forelse (\App\Models\Job::open()->with('client', 'category')->latest()->take(6)->get() as $job)
                 <div class="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition">
-                    <img src="https://picsum.photos/seed/{{ $job->id }}/400/300"
-                         alt="{{ $job->title }}" class="w-full h-40 object-cover">
+
 
                     <div class="p-4">
                         <h3 class="font-bold text-gray-900">{{ $job->title }}</h3>
@@ -60,7 +71,7 @@
                         </p>
 
                         <div class="flex justify-between items-center mt-4">
-                            <span class="text-sm text-gray-700">Budget: <strong>{{ $job->budget_formatted }}</strong></span>
+                            <span class="text-sm text-gray-700">Budget: <strong>{{ $job->budget}}</strong></span>
                             <a href="{{ route('jobs.show', $job) }}"
                                class="bg-indigo-600 text-white text-sm px-4 py-1.5 rounded hover:bg-indigo-700">
                                 Apply
@@ -74,7 +85,7 @@
         </div>
     </div>
 
-    {{--  STATS STRIP  --}}
+    {{-- ================= STATS STRIP ================= --}}
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-t">
         <div class="text-center">
             <p class="text-2xl font-bold text-indigo-600">{{ \App\Models\Job::open()->count() }}</p>

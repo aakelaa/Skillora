@@ -19,7 +19,7 @@ class StoreJobRequest extends FormRequest
             'category_id' => ['nullable', 'exists:categories,id'],
             'budget' => ['required', 'numeric', 'min:0'],
             'deadline' => ['nullable', 'date', 'after:today'],
-            'attachment' => ['nullable', 'file', 'mimes:pdf,doc,docx,png,jpg,jpeg', 'max:5120'],
+            'attachment_path' => ['nullable', 'file', 'mimes:pdf,doc,docx,png,jpg,jpeg', 'max:5120'],
         ];
     }
 }

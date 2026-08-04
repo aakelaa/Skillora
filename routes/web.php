@@ -7,6 +7,7 @@ use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Client\JobController as ClientJobController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboard;
 use App\Http\Controllers\Freelancer\DashboardController as FreelancerDashboard;
@@ -22,7 +23,7 @@ Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
-// ---- Auth required, any role ----
+// ---- Auth required, any role ---
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardRedirectController::class)->name('dashboard');
 
@@ -37,30 +38,36 @@ Route::middleware('auth')->group(function () {
     Route::put('/freelancer-profile', [FreelancerProfileController::class, 'update'])->name('freelancer-profile.update');
 });
 
-// ---- Client routes: /client/* ----
+// Client routes
 Route::middleware(['auth', 'role:client'])
-    ->prefix('client')
-    ->name('client.')
+    ->prefix('clients')
+    ->name('clients.')
     ->group(function () {
         Route::get('/dashboard', [ClientDashboard::class, 'index'])->name('dashboard');
         Route::resource('jobs', ClientJobController::class)->except(['show']);
+
+        Route::get('/jobs/{job}/applications', [ClientJobController::class, 'applications'])->name('jobs.applications');
+        Route::put('/applications/{application}/hire', [ClientJobController::class, 'hire'])->name('applications.hire');
+        Route::put('/applications/{application}/reject', [ClientJobController::class, 'reject'])->name('applications.reject');
     });
 
-// ---- Freelancer routes: /freelancer/* ----
+// Freelancer routes
 Route::middleware(['auth', 'role:freelancer'])
     ->prefix('freelancer')
     ->name('freelancer.')
     ->group(function () {
         Route::get('/dashboard', [FreelancerDashboard::class, 'index'])->name('dashboard');
+        Route::get('/applications', [FreelancerDashboard::class, 'applications'])->name('applications');
     });
 
-// ---- Admin routes: /admin/* ----
+//  Admin routes
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
         Route::resource('categories', AdminCategoryController::class)->except(['show']);
+        Route::resource('users', AdminUserController::class)->except(['show']);
     });
 
 require __DIR__.'/auth.php';

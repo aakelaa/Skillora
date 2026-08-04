@@ -60,7 +60,7 @@ class CategoryController extends Controller
     // DELETE /admin/categories/{category}
     public function destroy(Category $category)
     {
-        // Prevent deleting a category that still has jobs attached
+
         if ($category->jobs()->exists()) {
             return back()->with('error', 'Cannot delete a category that still has jobs.');
         }
