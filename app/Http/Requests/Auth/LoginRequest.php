@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -47,6 +48,19 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        $user = Auth::user();
+
+        if ($user && $user->status !== User::STATUS_APPROVED && ! $user->isAdmin()) {
+            Auth::logout();
+            $message = $user->status === User::STATUS_REJECTED
+                ? 'Your account request has been rejected. Please contact support for help.'
+                : 'Your account is pending approval. Please check back once it has been reviewed.';
+
+            throw ValidationException::withMessages([
+                'email' => $message,
             ]);
         }
 

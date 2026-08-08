@@ -19,11 +19,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_REJECTED = 'rejected';
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+        'status',
     ];
 
     /**
@@ -63,6 +68,21 @@ class User extends Authenticatable
     public function isFreelancer(): bool
     {
         return $this->role === 'freelancer';
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status === self::STATUS_PENDING;
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->status === self::STATUS_APPROVED;
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === self::STATUS_REJECTED;
     }
 
     // ---- Relationships ----

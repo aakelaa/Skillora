@@ -12,11 +12,32 @@ use App\Http\Controllers\Client\JobController as ClientJobController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboard;
 use App\Http\Controllers\Freelancer\DashboardController as FreelancerDashboard;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 // ---- Public routes ----
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+// Public frontend pages (static views)
+Route::view('/about', 'frontend.about')->name('about');
+Route::view('/services', 'frontend.services')->name('services');
+Route::view('/how', 'frontend.how')->name('how');
+Route::view('/faq', 'frontend.faq')->name('faq');
+Route::view('/privacy', 'frontend.privacy')->name('privacy');
+Route::view('/terms', 'frontend.terms')->name('terms');
+
+// Contact form (simple closure to avoid changing controllers)
+
+Route::get('/contact', function ()
+{
+     return view('frontend.contact'); })
+     ->name('contact');
+
+Route::post('/contact', function (Request $request) {
+    $request->validate(['email' => 'nullable|email', 'message' => 'nullable|string']);
+    return back()->with('success', 'Thanks — we will get back to you soon.');
+});
 
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
@@ -24,7 +45,7 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('categorie
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
 // ---- Auth required, any role ---
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'approved'])->group(function () {
     Route::get('/dashboard', DashboardRedirectController::class)->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,6 +57,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/freelancer-profile', [FreelancerProfileController::class, 'edit'])->name('freelancer-profile.edit');
     Route::put('/freelancer-profile', [FreelancerProfileController::class, 'update'])->name('freelancer-profile.update');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::put('users/{user}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
+    Route::put('users/{user}/reject', [AdminUserController::class, 'reject'])->name('users.reject');
 });
 
 // Client routes

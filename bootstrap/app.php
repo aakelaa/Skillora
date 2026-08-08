@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => EnsureUserHasRole::class,
+            'approved' => \App\Http\Middleware\EnsureAccountIsApproved::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

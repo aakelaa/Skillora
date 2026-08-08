@@ -4,53 +4,61 @@
 
 @section('content')
 
-    <form method="POST" action="{{ route('clients.jobs.store') }}" enctype="multipart/form-data"
-          class="bg-white p-6 rounded shadow-sm border max-w-2xl space-y-4">
-        @csrf
-
-        <div>
-            <label class="block text-sm font-medium mb-1">Title</label>
-            <input type="text" name="title" value="{{ old('title') }}" class="w-full border rounded p-2 text-sm">
-            @error('title') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+    <div class="mx-auto max-w-3xl rounded-[32px] border border-slate-200 bg-white p-10 shadow-card">
+        <div class="mb-8">
+            <h1 class="text-2xl font-semibold text-heading">Post a Job</h1>
+            <p class="mt-2 text-sm text-paragraph">Share your project details and attract top talent quickly.</p>
         </div>
 
-        <div>
-            <label class="block text-sm font-medium mb-1">Description</label>
-            <textarea name="description" rows="5" class="w-full border rounded p-2 text-sm">{{ old('description') }}</textarea>
-            @error('description') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+        <form method="POST" action="{{ route('clients.jobs.store') }}" enctype="multipart/form-data" class="space-y-6">
+            @csrf
 
-        <div>
-            <label class="block text-sm font-medium mb-1">Category</label>
-            <select name="category_id" class="w-full border rounded p-2 text-sm">
-                <option value="">-- none --</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="flex gap-4">
-            <div class="flex-1">
-                <label class="block text-sm font-medium mb-1">Budget (PKR)</label>
-                <input type="number" step="0.01" name="budget" value="{{ old('budget') }}" class="w-full border rounded p-2 text-sm">
-                @error('budget') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+            <div>
+                <x-input-label for="title" value="Job Title" />
+                <x-text-input id="title" name="title" value="{{ old('title') }}" required class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" />
+                <x-input-error :messages="$errors->get('title')" class="mt-2" />
             </div>
-            <div class="flex-1">
-                <label class="block text-sm font-medium mb-1">Deadline</label>
-                <input type="date" name="deadline" value="{{ old('deadline') }}" class="w-full border rounded p-2 text-sm">
-                @error('deadline') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+
+            <div>
+                <x-input-label for="description" value="Description" />
+                <textarea id="description" name="description" rows="5" class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" required>{{ old('description') }}</textarea>
+                <x-input-error :messages="$errors->get('description')" class="mt-2" />
             </div>
-        </div>
 
-        <div>
-            <label class="block text-sm font-medium mb-1">Attachment (optional)</label>
-            <input type="file" name="attachment" class="w-full border rounded p-2 text-sm">
-            @error('attachment') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
+            <div>
+                <x-input-label for="category_id" value="Category" />
+                <select id="category_id" name="category_id" class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10">
+                    <option value="">-- none --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded text-sm">Post Job</button>
-    </form>
+            <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                    <x-input-label for="budget" value="Budget (PKR)" />
+                    <x-text-input id="budget" type="number" step="0.01" name="budget" value="{{ old('budget') }}" class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" />
+                    <x-input-error :messages="$errors->get('budget')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="deadline" value="Deadline" />
+                    <x-text-input id="deadline" type="date" name="deadline" value="{{ old('deadline') }}" class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" />
+                    <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
+                </div>
+            </div>
+
+            <div>
+                <x-input-label for="attachment" value="Attachment (optional)" />
+                <input id="attachment" type="file" name="attachment" class="mt-3 block w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" />
+                <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="w-full py-3 rounded-full bg-primary text-white font-semibold text-center flex items-center justify-center hover:opacity-90 transition">
+        Post Job
+    </button>
+            </div>
+        </form>
+    </div>
 @endsection

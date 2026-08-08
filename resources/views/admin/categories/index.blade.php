@@ -3,34 +3,36 @@
 @section('title', 'Manage Categories')
 
 @section('content')
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Categories</h1>
-        <a href="{{ route('admin.categories.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded text-sm">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-semibold text-heading">Categories</h1>
+            <p class="mt-2 text-sm text-paragraph">Create and manage service categories for premium project matches.</p>
+        </div>
+        <a href="{{ route('admin.categories.create') }}" class="btn-primary inline-flex items-center justify-center px-5 py-3 text-sm">
             + New Category
         </a>
     </div>
 
-    <div class="grid gap-3">
+    <div class="grid gap-4">
         @forelse ($categories as $category)
-            <div class="bg-white p-4 rounded shadow-sm border flex justify-between items-center">
+            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-card flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <p class="font-semibold">{{ $category->name }}</p>
-                    <p class="text-xs text-gray-500">{{ $category->jobs_count }} jobs</p>
+                    <p class="text-lg font-semibold text-heading">{{ $category->name }}</p>
+                    <p class="mt-1 text-xs text-muted">{{ $category->jobs_count }} jobs</p>
                 </div>
-                <div class="flex gap-3 text-sm">
-                    <a href="{{ route('admin.categories.edit', $category) }}" class="text-indigo-600 hover:underline">Edit</a>
-                    <form method="POST" action="{{ route('admin.categories.destroy', $category) }}"
-                          onsubmit="return confirm('Delete this category?');">
+                <div class="flex flex-wrap items-center gap-3 text-sm">
+                    <a href="{{ route('admin.categories.edit', $category) }}" class="text-primary hover:text-primary/80 font-semibold">Edit</a>
+                    <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" onsubmit="return confirm('Delete this category?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                        <button type="submit" class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
                     </form>
                 </div>
             </div>
         @empty
-            <p class="text-gray-500">No categories yet.</p>
+            <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-card text-center text-paragraph">No categories yet.</div>
         @endforelse
     </div>
 
-    <div class="mt-6">{{ $categories->links() }}</div>
+    <div class="mt-8">{{ $categories->links() }}</div>
 @endsection

@@ -17,6 +17,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'role' => 'freelancer',
+            'status' => \App\Models\User::STATUS_APPROVED,
             'remember_token' => \Illuminate\Support\Str::random(10),
         ];
     }

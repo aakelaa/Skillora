@@ -4,40 +4,42 @@
 
 @section('content')
 
-    <div class="bg-white rounded-xl border overflow-hidden">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-gray-500 text-left">
-                <tr>
-                    <th class="px-5 py-3 font-medium">Job Title</th>
-                    <th class="px-5 py-3 font-medium">Budget</th>
-                    <th class="px-5 py-3 font-medium">Applied On</th>
-                    <th class="px-5 py-3 font-medium">Status</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y">
-                @forelse ($applications as $application)
+    <div class="rounded-[32px] border border-slate-200 bg-white shadow-card overflow-hidden">
+        <div class="border-b border-slate-200 bg-slate-50 px-6 py-5">
+            <h1 class="text-xl font-semibold text-heading">My Applications</h1>
+            <p class="mt-1 text-sm text-paragraph">Track your applied jobs and see status updates at a glance.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200 text-sm">
+                <thead class="bg-white text-left text-slate-500 uppercase tracking-[0.18em] text-[11px]">
                     <tr>
-                        <td class="px-5 py-3 font-medium text-gray-900">
-                            <a href="{{ route('jobs.show', $application->job_id) }}" class="hover:underline">
-                                {{ $application->job->title }}
-                            </a>
-                        </td>
-                        <td class="px-5 py-3 text-gray-600">{{ $application->job->budget_formatted }}</td>
-                        <td class="px-5 py-3 text-gray-500">{{ $application->created_at->format('M d, Y') }}</td>
-                        <td class="px-5 py-3">
-                            <span class="text-xs px-2 py-1 rounded-full
-                                {{ $application->status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '' }}
-                                {{ $application->status === 'hired' ? 'bg-green-100 text-green-700' : '' }}
-                                {{ $application->status === 'rejected' ? 'bg-red-100 text-red-700' : '' }}">
-                                {{ ucfirst($application->status) }}
-                            </span>
-                        </td>
+                        <th class="px-6 py-4">Job Title</th>
+                        <th class="px-6 py-4">Budget</th>
+                        <th class="px-6 py-4">Applied On</th>
+                        <th class="px-6 py-4">Status</th>
                     </tr>
-                @empty
-                    <tr><td colspan="4" class="px-5 py-6 text-center text-gray-500">You haven't applied to any jobs yet.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                    @forelse ($applications as $application)
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-6 py-4 font-medium text-heading">
+                                <a href="{{ route('jobs.show', $application->job_id) }}" class="hover:underline">{{ $application->job->title }}</a>
+                            </td>
+                            <td class="px-6 py-4 text-paragraph">{{ $application->job->budget }}</td>
+                            <td class="px-6 py-4 text-muted">{{ $application->created_at->format('M d, Y') }}</td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $application->status === 'pending' ? 'bg-yellow-100 text-yellow-700' : ($application->status === 'hired' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700') }}">
+                                    {{ ucfirst($application->status) }}
+                                </span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4" class="px-6 py-8 text-center text-paragraph">You haven't applied to any jobs yet.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="mt-4">{{ $applications->links() }}</div>
