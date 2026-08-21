@@ -1,31 +1,44 @@
-<footer class="bg-white border-t border-slate-200 text-slate-600">
-    <div class="mx-auto grid max-w-4xl gap-8 px-4 py-14 sm:grid-cols-3 lg:px-6 text-center">
-        <div class="space-y-4 flex flex-col items-center">
-            <div class="text-lg font-semibold text-heading ">Skillora</div>
-            <p class="text-sm text-muted max-w-xs">A marketplace for clients and freelancers with seamless hiring, applications, and project workflows.</p>
-        </div>
+<footer class="border-t border-border bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="space-y-4 sm:col-span-2 lg:col-span-1">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5">
+                    <span class="font-bold text-heading">Skillora</span>
+                </a>
+                <p class="max-w-xs text-sm text-paragraph">A marketplace for clients and freelancers with seamless hiring, applications, and project workflows.</p>
+            </div>
 
-        <div class="flex flex-col items-center">
-             <div class="text-lg font-semibold text-heading ">Platform</div>
-            <ul class="mt-4 space-y-3 text-sm text-slate-600">
-                <li><a href="{{ route('jobs.index') }}" class="hover:text-primary transition">Browse Jobs</a></li>
-                <li><a href="{{ route('categories.index') }}" class="hover:text-primary transition">Categories</a></li>
-                <li><a href="{{ route('register') }}" class="hover:text-primary transition">Create Account</a></li>
-            </ul>
-        </div>
+            <div>
+                <div class="text-sm font-semibold text-heading">Platform</div>
+                <ul class="mt-4 space-y-3 text-sm text-paragraph">
+                    <li><a href="{{ route('jobs.index') }}" class="transition hover:text-primary">Browse Jobs</a></li>
+                    <li><a href="{{ route('categories.index') }}" class="transition hover:text-primary">Categories</a></li>
+                    <li><a href="{{ route('register') }}" class="transition hover:text-primary">Create Account</a></li>
+                    <li><a href="{{ url('/how-it-works') }}" class="transition hover:text-primary">How It Works</a></li>
+                </ul>
+            </div>
 
-        <div class="flex flex-col items-center">
-             <div class="text-lg font-semibold text-heading ">Company</div>
-            <ul class="mt-4 space-y-3 text-sm text-slate-600">
-                <li><a href="{{ url('/about') }}" class="hover:text-primary transition">About Us</a></li>
-                <li><a href="{{ url('/contact') }}" class="hover:text-primary transition">Contact</a></li>
-                <li><a href="{{ url('/privacy') }}" class="hover:text-primary transition">Privacy Policy</a></li>
-                <li><a href="{{ url('/terms') }}" class="hover:text-primary transition">Terms</a></li>
-            </ul>
+            <div>
+                <div class="text-sm font-semibold text-heading">Company</div>
+                <ul class="mt-4 space-y-3 text-sm text-paragraph">
+                    <li><a href="{{ url('/about') }}" class="transition hover:text-primary">About Us</a></li>
+                    <li><a href="{{ url('/services') }}" class="transition hover:text-primary">Services</a></li>
+                    <li><a href="{{ url('/faq') }}" class="transition hover:text-primary">FAQ</a></li>
+                    <li><a href="{{ url('/contact') }}" class="transition hover:text-primary">Contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-heading">Legal</div>
+                <ul class="mt-4 space-y-3 text-sm text-paragraph">
+                    <li><a href="{{ url('/privacy') }}" class="transition hover:text-primary">Privacy Policy</a></li>
+                    <li><a href="{{ url('/terms') }}" class="transition hover:text-primary">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="border-t border-slate-200 bg-background py-6 text-center text-sm text-muted">
+    <div class="border-t border-border py-6 text-center text-sm text-muted">
         &copy; {{ date('Y') }} Skillora. All rights reserved.
     </div>
 </footer>

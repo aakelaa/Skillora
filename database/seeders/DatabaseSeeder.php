@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // One fixed admin so you can always log in predictably
         User::factory()->admin()->create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'email' => 'admin@skillora.com',
         ]);
 
         Category::factory(8)->create();

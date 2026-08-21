@@ -1,51 +1,55 @@
-<section class="relative overflow-hidden bg-background pb-20 pt-16">
-    <div class="absolute inset-x-0 top-0 h-80 bg-gradient-to-br from-primary/10 via-white to-white"></div>
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
-        <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div class="space-y-8">
-                <div class="space-y-6">
-                    <h1 class="max-w-xl text-2xl font-bold tracking-tight text-heading sm:text-4xl">Connect with the right talent and bring your best ideas to life..</h1>
-                    <p class="max-w-2xl text-lg text-paragraph">Skillora makes freelance hiring simple for businesses and <br> professionals. Discover skilled talent, explore opportunities, <br> and build meaningful working relationships.</p>
-                </div>
+<section class="relative overflow-hidden bg-white">
+    <div class="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-primary-50 via-white to-white"></div>
+    <div class="absolute -right-40 top-10 h-96 w-96 rounded-full bg-secondary-100/60 blur-3xl"></div>
 
-                <div class="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <form method="GET" action="{{ route('jobs.index') }}" class="grid gap-3 rounded-[28px] border border-slate-200 bg-white p-4 shadow-card sm:grid-cols-[1.4fr_0.8fr_auto]">
-                        <label class="sr-only" for="hero-search">Search jobs</label>
-                        <input id="hero-search" type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Search jobs, skills, or categories" class="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10" />
-                        <select name="category" class="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-primary focus:ring-primary/10">
-                            <option value="">All Categories</option>
-                            @foreach(\App\Models\Category::limit(20)->get() as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn-primary rounded-3xl px-6 py-3 text-sm">Search jobs</button>
-                    </form>
-                </div>
+    <div class="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:pt-20">
+        <div class="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div class="space-y-7">
+                <span class="eyebrow">Trusted by 1,200+ businesses</span>
 
-                <div class="grid max-w-2xl gap-3 sm:grid-cols-2">
-                     <div class="rounded-[22px] border border-slate-200 bg-surface px-5 py-4 shadow-sm">
+                <h1 class="max-w-xl text-3xl font-extrabold leading-tight tracking-tight text-heading sm:text-5xl">
+                    Connect with the right talent, and bring your best ideas to life.
+                </h1>
+                <p class="max-w-xl text-lg text-paragraph">
+                    Skillora makes freelance hiring simple for businesses and professionals. Discover skilled talent, explore opportunities, and build meaningful working relationships.
+                </p>
 
-                         <p class="text-sm text-muted">Jobs listed</p>
-                                <p class="mt-1 text-xl font-semibold text-heading">{{ \App\Models\Job::open()->count() }} </p>
+                <form method="GET" action="{{ route('jobs.index') }}" class="card flex flex-col gap-3 p-3 sm:flex-row sm:items-center">
+                    <label class="sr-only" for="hero-search">Search jobs</label>
+                    <input id="hero-search" type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Search jobs, skills, or categories" class="flex-1 !border-0 !bg-background !ring-0 focus:!ring-4 focus:!ring-primary-50" />
+                    <select name="category" class="sm:w-52 !border-0 !bg-background">
+                        <option value="">All Categories</option>
+                        @foreach(\App\Models\Category::limit(20)->get() as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn-primary shrink-0">Search jobs</button>
+                </form>
 
-                 </div>
-
-               <div class="rounded-[22px] border border-slate-200 bg-surface px-5 py-4 shadow-sm">
-                 <p class="text-sm text-muted">Freelancers</p>
-                         <p class="mt-1 text-xl font-semibold text-heading">{{ \App\Models\User::where('role','freelancer')->count() }}</p>
-
-
+                <div class="flex flex-wrap gap-8 pt-2">
+                    <div>
+                        <p class="text-2xl font-extrabold text-heading">{{ \App\Models\Job::open()->count() }}+</p>
+                        <p class="text-sm text-muted">Jobs listed</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-heading">{{ \App\Models\User::where('role','freelancer')->count() }}+</p>
+                        <p class="text-sm text-muted">Freelancers</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl font-extrabold text-heading">{{ \App\Models\User::where('role','client')->count() }}+</p>
+                        <p class="text-sm text-muted">Clients</p>
+                    </div>
                 </div>
             </div>
-            </div>
 
-            <div class="relative flex items-center justify-center">
-    <img
-        src="{{ asset('build/assets/images/hero_illustration.jpeg') }}"
-        alt="Skillora Freelance Platform"
-        class="h-[420px] w-full max-w-[520px] rounded-[32px] object-cover shadow-card"
-    >
-</div>
+            <div class="relative">
+                <div class="absolute -inset-4 rounded-[28px] bg-gradient-to-br from-primary-100 to-secondary-100 -z-10 rotate-2"></div>
+                <img
+                    src="{{ asset('build/assets/images/hero_illustration.png') }}"
+                    alt="Skillora Freelance Platform"
+                    class="h-[420px] w-full rounded-2xl object-cover shadow-card-hover"
+                >
+            </div>
         </div>
     </div>
 </section>

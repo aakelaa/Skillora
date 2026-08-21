@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,138 +6,195 @@
 
 :root {
     color-scheme: light;
-    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #0F172A;
-    background-color: #F8FAFC;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #101323;
+    background-color: #F6F7FB;
     --surface: #FFFFFF;
-    --surface-muted: #F8F9FB;
-    --border: #E5E7EB;
-    --text-strong: #0F172A;
-    --text-normal: #475569;
-    --text-muted: #94A3B8;
-    --primary: #6D5EF7;
-    --primary-soft: #EEF2FF;
-    --accent: #22C55E;
+    --border: #E4E7EF;
+    --text-strong: #101323;
+    --text-normal: #475069;
+    --text-muted: #8A90A6;
+    --primary: #0F5B54;
+    --primary-soft: #E9F5F3;
 }
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
     min-height: 100vh;
-    background: #F8FAFC;
-    color: #0F172A;
-    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #F6F7FB;
+    color: #101323;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
-::selection {
-    background: #6D5EF7;
-    color: white;
+::selection { background: #0F5B54; color: white; }
+
+button, input, select, textarea { font: inherit; }
+
+/* ============ TYPOGRAPHY HELPERS ============ */
+.eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary-600;
 }
 
-button,
-input,
-select,
-textarea {
-    font: inherit;
+.page-header {
+    @apply flex flex-col gap-4 border-b border-border pb-6 mb-8 lg:flex-row lg:items-center lg:justify-between;
 }
 
-[type='text'],
-[type='email'],
-[type='password'],
-textarea,
-select {
-    border-color: #D1D5DB;
+.page-title {
+    @apply text-2xl font-bold text-heading tracking-tight;
 }
 
+.page-subtitle {
+    @apply mt-1 text-sm text-paragraph;
+}
+
+.section-title {
+    @apply text-xl font-bold text-heading tracking-tight;
+}
+
+/* ============ SURFACES / CARDS ============ */
+.card,
 .form-card,
 .panel-card,
 .card-soft {
     background: white;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.06);
-    border-radius: 24px;
+    border: 1px solid #E4E7EF;
+    box-shadow: 0 1px 3px rgba(16,19,35,0.06), 0 1px 2px rgba(16,19,35,0.04);
+    border-radius: 16px;
 }
 
-.bg-surface {
-    background-color: white;
+.card-hover {
+    @apply transition duration-200;
+}
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -8px rgba(16,19,35,0.12), 0 4px 8px -4px rgba(16,19,35,0.06);
+    border-color: #C2C6FF;
 }
 
-.bg-page {
-    background: #F8FAFC;
+.card-padded { @apply card p-6 sm:p-7; }
+
+.stat-card {
+    @apply card flex items-center gap-4 p-5;
+}
+.stat-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg;
 }
 
-.shadow-card {
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+.empty-state {
+    @apply card flex flex-col items-center justify-center gap-2 px-6 py-14 text-center;
+}
+.empty-state-icon {
+    @apply flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-600 text-2xl mb-2;
 }
 
-.text-heading {
-    color: #0F172A;
-}
+.bg-surface { background-color: white; }
+.bg-page { background: #F6F7FB; }
+.shadow-card { box-shadow: 0 1px 3px rgba(16,19,35,0.06), 0 1px 2px rgba(16,19,35,0.04); }
+.text-heading { color: #101323; }
+.text-paragraph { color: #475069; }
+.text-muted { color: #8A90A6; }
 
-.text-paragraph {
-    color: #475569;
-}
-
-.text-muted {
-    color: #94A3B8;
-}
-
+/* ============ BUTTONS ============ */
 .btn-primary {
-    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold text-white transition duration-200;
-    background: linear-gradient(90deg, #6D5EF7 0%, #8B5CF6 100%);
-    box-shadow: 0 18px 45px rgba(109, 94, 247, 0.18);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-primary transition duration-150 shadow-xs;
 }
-
-.btn-primary:hover {
-    transform: translateY(-1px);
-}
+.btn-primary:hover { background: #09322D; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
 
 .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold text-slate-700 border border-slate-300 bg-white transition duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-white px-5 py-2.5 text-sm font-semibold text-heading transition duration-150;
 }
+.btn-secondary:hover { background: #F6F7FB; border-color: #C2C6FF; }
 
-.btn-secondary:hover {
-    transform: translateY(-1px);
+.btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-primary-200 bg-primary-50 px-5 py-2.5 text-sm font-semibold text-primary-700 transition duration-150;
 }
+.btn-outline:hover { background: #D2ECE6; }
 
 .btn-danger {
-    @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 font-semibold text-white bg-red-600 transition duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-danger-600 transition duration-150;
 }
+.btn-danger:hover { background: #B42318; }
 
-.btn-danger:hover {
-    background: #dc2626;
+.btn-sm { @apply px-3.5 py-2 text-xs; }
+
+/* Icon-only / compact row actions for CRUD tables & cards */
+.action-btn {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg border transition duration-150;
 }
+.action-btn svg { @apply h-4 w-4; }
 
+.action-btn-edit {
+    @apply action-btn border-primary-100 bg-primary-50 text-primary-600;
+}
+.action-btn-edit:hover { background: #D2ECE6; }
+
+.action-btn-view {
+    @apply action-btn border-border bg-white text-paragraph;
+}
+.action-btn-view:hover { background: #F6F7FB; color: #101323; }
+
+.action-btn-delete {
+    @apply action-btn border-danger-100 bg-danger-50 text-danger-600;
+}
+.action-btn-delete:hover { background: #FEE4E2; }
+
+.action-btn-approve {
+    @apply action-btn border-success-100 bg-success-50 text-success-600;
+}
+.action-btn-approve:hover { background: #D1FADF; }
+
+.row-actions { @apply flex items-center gap-2; }
+
+/* ============ BADGES / STATUS PILLS ============ */
+.badge { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold; }
+.badge-success { @apply badge bg-success-50 text-success-700; }
+.badge-warning { @apply badge bg-warning-50 text-warning-700; }
+.badge-danger  { @apply badge bg-danger-50 text-danger-700; }
+.badge-info    { @apply badge bg-info-50 text-info-600; }
+.badge-neutral { @apply badge bg-slate-100 text-slate-600; }
+
+/* ============ FORMS ============ */
 input[type='text'],
 input[type='email'],
 input[type='password'],
+input[type='number'],
+input[type='date'],
+input[type='file'],
 textarea,
 select {
-    @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10 transition duration-200;
+    @apply w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-heading placeholder:text-muted focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary-50 transition duration-150;
 }
 
-label {
-    @apply text-sm font-medium text-slate-700;
-}
+label { @apply text-sm font-semibold text-heading; }
 
-.alert-success,
-.alert-error {
-    @apply rounded-2xl border px-4 py-4 text-sm;
-}
+.field-group { @apply space-y-2; }
+.field-hint { @apply text-xs text-muted; }
 
-.alert-success {
-    @apply bg-emerald-50 border-emerald-200 text-emerald-700;
-}
+.alert-success, .alert-error { @apply rounded-2xl border px-4 py-4 text-sm; }
+.alert-success { @apply bg-success-50 border-success-100 text-success-700; }
+.alert-error { @apply bg-danger-50 border-danger-100 text-danger-700; }
 
-.alert-error {
-    @apply bg-red-50 border-red-200 text-red-700;
+/* ============ TABLES ============ */
+.table-modern { @apply min-w-full text-sm; }
+.table-modern thead {
+    @apply bg-background text-left text-xs font-semibold uppercase tracking-wider text-muted;
 }
+.table-modern thead th { @apply px-6 py-3.5; }
+.table-modern tbody { @apply divide-y divide-border; }
+.table-modern tbody tr { @apply transition duration-150; }
+.table-modern tbody tr:hover { @apply bg-background; }
+.table-modern tbody td { @apply px-6 py-4 align-middle; }
+.table-wrap { @apply card overflow-hidden; }
+.table-scroll { @apply overflow-x-auto; }
 
+/* ============ MISC ============ */
 @media (max-width: 1024px) {
-    .lg\:px-24 {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
+    .lg\:px-24 { padding-left: 1.5rem; padding-right: 1.5rem; }
 }

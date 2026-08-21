@@ -4,51 +4,71 @@
 
 @section('content')
 
-    <div class="mb-8 rounded-[32px] border border-slate-200 bg-white p-8 shadow-card">
-        <a href="{{ route('clients.jobs.index') }}" class="text-sm font-semibold text-primary hover:text-primary/80">&larr; Back to My Jobs</a>
-        <div class="mt-4">
-            <h2 class="text-2xl font-semibold text-heading">{{ $job->title }}</h2>
-            <p class="mt-2 text-sm text-muted">Status: {{ ucfirst($job->status) }}</p>
+    <div class="mb-6">
+        <a href="{{ route('clients.jobs.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+            Back to My Jobs
+        </a>
+    </div>
+
+    <div class="card-padded mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h2 class="text-xl font-bold text-heading">{{ $job->title }}</h2>
+            <p class="mt-1 text-sm text-muted">{{ $applications->total() }} total applicants</p>
         </div>
+        <span class="{{ $job->status === 'open' ? 'badge-success' : ($job->status === 'hired' ? 'badge-info' : 'badge-neutral') }}">{{ ucfirst($job->status) }}</span>
     </div>
 
-    <div class="grid gap-4">
-        @forelse ($applications as $application)
-            <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-card">
-                <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div>
-                        <p class="text-lg font-semibold text-heading">{{ $application->freelancer->name }}</p>
-                        <p class="mt-1 text-sm text-muted">{{ $application->freelancer->email }}</p>
+    @if ($applications->count())
+        <div class="grid gap-4">
+            @foreach ($applications as $application)
+                <div class="card-padded">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-50 font-bold text-primary-600">
+                                {{ strtoupper(substr($application->freelancer->name, 0, 1)) }}
+                            </span>
+                            <div>
+                                <p class="font-bold text-heading">{{ $application->freelancer->name }}</p>
+                                <p class="text-sm text-muted">{{ $application->freelancer->email }}</p>
+                            </div>
+                        </div>
+                        <span class="{{ $application->status === 'hired' ? 'badge-success' : ($application->status === 'rejected' ? 'badge-danger' : 'badge-warning') }}">
+                            {{ ucfirst($application->status) }}
+                        </span>
                     </div>
-                    <span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 {{ $application->status === 'hired' ? 'bg-green-100 text-green-700' : ($application->status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700') }}">
-                        {{ ucfirst($application->status) }}
-                    </span>
+
+                    <p class="mt-4 rounded-xl bg-background p-4 text-sm leading-7 text-paragraph">{{ $application->cover_letter }}</p>
+
+                    @if ($application->status === 'pending')
+                        <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                            <form method="POST" action="{{ route('clients.applications.hire', $application) }}" class="w-full sm:w-auto">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn-primary w-full" onclick="return confirm('Hire this freelancer? This will close the job.');">
+                                    Hire freelancer
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route('clients.applications.reject', $application) }}" class="w-full sm:w-auto">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn-secondary w-full !border-danger-100 !text-danger-600 hover:!bg-danger-50">
+                                    Reject
+                                </button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
+            @endforeach
+        </div>
 
-                <p class="mt-4 text-sm leading-7 text-paragraph">{{ $application->cover_letter }}</p>
-
-                @if ($application->status === 'pending')
-                    <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-                        <form method="POST" action="{{ route('clients.applications.hire', $application) }}" class="w-full sm:w-auto">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="btn-primary w-full px-5 py-3 text-sm" onclick="return confirm('Hire this freelancer? This will close the job.');">
-                                Hire
-                            </button>
-                        </form>
-                        <form method="POST" action="{{ route('clients.applications.reject', $application) }}" class="w-full sm:w-auto">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="rounded-3xl border border-red-200 bg-red-50 px-5 py-3 text-sm font-semibold text-red-700 hover:bg-red-100">
-                                Reject
-                            </button>
-                        </form>
-                    </div>
-                @endif
-            </div>
-        @empty
-            <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-card text-center text-paragraph">No applications yet for this job.</div>
-        @endforelse
-    </div>
+        <div class="mt-6">{{ $applications->links() }}</div>
+    @else
+        <div class="empty-state">
+            <div class="empty-state-icon">📄</div>
+            <p class="font-semibold text-heading">No applications yet</p>
+            <p class="text-sm text-paragraph">Applicants for this job will appear here.</p>
+        </div>
+    @endif
 
 @endsection

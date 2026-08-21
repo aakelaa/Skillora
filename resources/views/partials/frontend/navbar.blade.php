@@ -1,47 +1,56 @@
-<nav class="sticky top-0 z-50 border-b border-slate-200 bg-background/95 backdrop-blur-xl shadow-sm">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-        <a href="{{ route('home') }}" class="flex items-center gap-3">
-            <div class="grid h-12 w-12 place-items-center rounded-3xl bg-gradient-to-br from-primary to-secondary text-white shadow-card">S</div>
-            <div class="hidden md:block text-sm">
-                <p class="font-semibold text-heading">Skillora</p>
-                <p class="text-muted">Freelance marketplace</p>
-            </div>
+<nav class="sticky top-0 z-50 border-b border-border bg-white/90 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
+        <a href="{{ route('home') }}" class="flex items-center gap-2.5">
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-primary text-white font-bold shadow-xs">S</span>
+            <span class="hidden sm:block leading-tight">
+                <span class="block font-bold text-heading">Skillora</span>
+                <span class="block text-[11px] font-medium text-muted">Freelance marketplace</span>
+            </span>
         </a>
 
-        <div class="hidden lg:flex items-center gap-8 text-sm text-slate-600">
-            <a href="{{ route('home') }}" class="hover:text-primary transition">Home</a>
-            <a href="{{ url('/about') }}" class="hover:text-primary transition">About</a>
-            <a href="{{ url('/services') }}" class="hover:text-primary transition">Services</a>
-            <a href="{{ route('jobs.index') }}" class="hover:text-primary transition">Browse Jobs</a>
-            <a href="{{ route('categories.index') }}" class="hover:text-primary transition">Categories</a>
-            <a href="{{ url('/faq') }}" class="hover:text-primary transition">FAQ</a>
-            <a href="{{ url('/contact') }}" class="hover:text-primary transition">Contact</a>
+        <div class="hidden lg:flex items-center gap-1 text-sm">
+            <a href="{{ route('home') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">Home</a>
+            <a href="{{ url('/about') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">About</a>
+            <a href="{{ url('/services') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">Services</a>
+            <a href="{{ route('jobs.index') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">Browse Jobs</a>
+            <a href="{{ route('categories.index') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">Categories</a>
+            <a href="{{ url('/faq') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">FAQ</a>
+            <a href="{{ url('/contact') }}" class="rounded-lg px-3.5 py-2 font-semibold text-paragraph transition hover:bg-background hover:text-heading">Contact</a>
         </div>
 
         <div class="flex items-center gap-3">
             @auth
                 @php $user = auth()->user(); @endphp
-                <a href="{{ $user->isAdmin() ? route('admin.dashboard') : ($user->isClient() ? route('clients.dashboard') : route('freelancer.dashboard')) }}" class="hidden rounded-full bg-surface px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:-translate-y-px lg:inline-flex">Dashboard</a>
+                <a href="{{ $user->isAdmin() ? route('admin.dashboard') : ($user->isClient() ? route('clients.dashboard') : route('freelancer.dashboard')) }}" class="btn-secondary hidden lg:inline-flex">Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 transition hover:text-primary">Login</a>
-                <a href="{{ route('register') }}" class="hidden rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-px lg:inline-flex">Create account</a>
+                <a href="{{ route('login') }}" class="hidden text-sm font-semibold text-paragraph hover:text-heading lg:inline-block">Login</a>
+                <a href="{{ route('register') }}" class="btn-primary hidden lg:inline-flex">Create account</a>
             @endauth
-            <button class="lg:hidden rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button class="grid h-10 w-10 place-items-center rounded-lg border border-border text-paragraph lg:hidden" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
+            </button>
         </div>
     </div>
 
-    <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
-        <div class="space-y-2 text-sm text-slate-700">
-            <a href="{{ route('home') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">Home</a>
-            <a href="{{ url('/about') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">About</a>
-            <a href="{{ url('/services') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">Services</a>
-            <a href="{{ route('jobs.index') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">Browse Jobs</a>
-            <a href="{{ route('categories.index') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">Categories</a>
-            <a href="{{ url('/faq') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">FAQ</a>
-            <a href="{{ url('/contact') }}" class="block rounded-2xl px-4 py-3 hover:bg-slate-50">Contact</a>
+    <div id="mobile-menu" class="hidden border-t border-border bg-white px-4 py-4 lg:hidden">
+        <div class="space-y-1 text-sm">
+            <a href="{{ route('home') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">Home</a>
+            <a href="{{ url('/about') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">About</a>
+            <a href="{{ url('/services') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">Services</a>
+            <a href="{{ route('jobs.index') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">Browse Jobs</a>
+            <a href="{{ route('categories.index') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">Categories</a>
+            <a href="{{ url('/faq') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">FAQ</a>
+            <a href="{{ url('/contact') }}" class="block rounded-lg px-3.5 py-2.5 font-semibold text-paragraph hover:bg-background">Contact</a>
+            <div class="mt-3 border-t border-border pt-3">
+                @auth
+                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isClient() ? route('clients.dashboard') : route('freelancer.dashboard')) }}" class="btn-secondary block text-center">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="block rounded-lg px-3.5 py-2.5 text-center font-semibold text-paragraph hover:bg-background">Login</a>
+                    <a href="{{ route('register') }}" class="btn-primary mt-2 block text-center">Create account</a>
+                @endauth
+            </div>
         </div>
     </div>
 </nav>
