@@ -1,10 +1,10 @@
 <aside class="h-full w-72 border-r border-border bg-white flex flex-col overflow-hidden">
-    <div class="px-6 py-6 border-b border-border flex items-center justify-between">
-        <a href="{{ route('home') }}" class="flex items-center gap-2.5">
-            <span class="grid h-10 w-10 place-items-center rounded-xl bg-primary text-white font-bold">S</span>
-            <span class="text-lg font-bold text-heading">Skillora</span>
+    <div class="welcome-band !rounded-none !px-6 !py-6 flex items-center justify-between">
+        <a href="{{ route('home') }}" class="relative z-10 flex items-center gap-2.5">
+            <span class="grid h-9 w-9 place-items-center rounded-lg bg-white/15 text-white font-bold backdrop-blur">S</span>
+            <span class="text-base font-bold text-white">Skillora</span>
         </a>
-        <button class="grid h-9 w-9 place-items-center rounded-lg text-paragraph lg:hidden" @click="sidebarOpen = false">
+        <button class="relative z-10 grid h-9 w-9 place-items-center rounded-lg text-white/80 hover:bg-white/10 lg:hidden" @click="sidebarOpen = false">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

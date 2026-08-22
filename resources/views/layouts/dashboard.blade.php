@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard') · Skillora</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,17 +36,22 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
+                        <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white sm:flex" style="background: linear-gradient(135deg, #0F5B54, #0EA5B7);">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
+                            </svg>
+                        </div>
                         <div>
                             <h1 class="text-lg font-bold text-heading leading-tight">@yield('title', 'Dashboard')</h1>
                             <p class="hidden text-xs text-muted sm:block">Manage your workspace and stay on top of your account.</p>
                         </div>
                     </div>
 
-                    <div class="inline-flex items-center gap-3 rounded-full border border-border bg-white px-3 py-1.5 text-sm shadow-xs">
-                        <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-50 text-primary-600 font-semibold">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                    <div class="inline-flex items-center gap-2.5 rounded-full border border-border bg-background pl-1 pr-3 py-1">
+                        <span class="avatar-chip-sm">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
                         <div class="hidden leading-tight text-left sm:block">
-                            <div class="font-semibold text-heading">{{ auth()->user()->name }}</div>
-                            <div class="text-xs text-muted capitalize">{{ auth()->user()->role }}</div>
+                            <div class="text-xs font-semibold text-heading">{{ auth()->user()->name }}</div>
+                            <div class="text-[10px] text-muted capitalize">{{ auth()->user()->role }}</div>
                         </div>
                     </div>
                 </div>
