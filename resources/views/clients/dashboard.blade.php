@@ -4,34 +4,65 @@
 
 @section('content')
 
-    <div class="page-header">
-        <div>
-            <h1 class="page-title">Welcome, {{ auth()->user()->name }}!</h1>
-            <p class="page-subtitle">Track your jobs, applications, and hiring activity in one polished dashboard.</p>
+    @php
+        // Dynamic 7-day applications trend (for this client's jobs only) for the hero chart.
+        // Adjust the relation/column names below if they differ in your app.
+        $trendDays = collect(range(6, 0))->map(fn ($i) => \Carbon\Carbon::today()->subDays($i));
+        $trendCounts = $trendDays->map(
+            fn ($day) => \App\Models\Application::whereDate('created_at', $day)
+                ->whereHas('job', fn ($q) => $q->where('client_id', auth()->id()))
+                ->count()
+        );
+        $trendMax = max($trendCounts->max(), 1);
+        $chartWidth = 220;
+        $chartHeight = 40;
+        $stepX = $chartWidth / max($trendCounts->count() - 1, 1);
+        $points = $trendCounts->values()->map(function ($count, $i) use ($stepX, $trendMax, $chartHeight) {
+            $x = round($i * $stepX, 1);
+            $y = round($chartHeight - 4 - (($count / $trendMax) * ($chartHeight - 8)), 1);
+            return "{$x},{$y}";
+        })->implode(' ');
+        $weeklyTotal = $trendCounts->sum();
+    @endphp
+
+    <div class="welcome-band mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="relative z-10">
+            <h2 class="text-xl font-bold text-white sm:text-2xl">Welcome, {{ auth()->user()->name }}! 👋</h2>
+            <p class="mt-1 text-sm text-primary-100">Track your jobs, applications, and hiring activity in one polished dashboard.</p>
         </div>
-        <a href="{{ route('clients.jobs.create') }}" class="btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+        <a href="{{ route('clients.jobs.create') }}" class="relative z-10 inline-flex items-center justify-center gap-2 self-start rounded-xl bg-secondary px-5 py-2.5 text-sm font-bold shadow-lg transition hover:-translate-y-0.5" style="color:#3A2708;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
             Post a New Job
         </a>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-3 mb-10">
+    <div class="grid gap-4 lg:grid-cols-[1.3fr_1fr_1fr] mb-10">
+
+        <!-- Hero stat with dynamic sparkline -->
+        <div class="stat-hero">
+            <div class="relative z-10">
+                <p class="text-xs font-semibold uppercase tracking-wider text-primary-100">Applications this week</p>
+                <p class="mt-1 text-3xl font-extrabold">{{ $weeklyTotal }}</p>
+                <svg class="mt-3 w-full" height="{{ $chartHeight }}" viewBox="0 0 {{ $chartWidth }} {{ $chartHeight }}" preserveAspectRatio="none">
+                    <polyline points="{{ $points }}" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+
         <div class="stat-card">
-            <div class="stat-icon bg-info-50 text-info-600">💼</div>
+            <div class="stat-icon bg-primary-50 text-primary-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2" /><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+            </div>
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-muted">Active Job Posts</p>
                 <p class="mt-1 text-2xl font-extrabold text-heading">{{ $stats['active_jobs'] }}</p>
             </div>
         </div>
+
         <div class="stat-card">
-            <div class="stat-icon bg-secondary-100 text-secondary-600">📄</div>
-            <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-muted">Applications Received</p>
-                <p class="mt-1 text-2xl font-extrabold text-heading">{{ $stats['applications_received'] }}</p>
+            <div class="stat-icon bg-secondary-50 text-secondary-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path stroke-linecap="round" stroke-linejoin="round" d="m17 11 2 2 4-4" /></svg>
             </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon bg-success-50 text-success-600">🤝</div>
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wider text-muted">Hired Freelancers</p>
                 <p class="mt-1 text-2xl font-extrabold text-heading">{{ $stats['hired_count'] }}</p>
@@ -60,7 +91,14 @@
                     <tbody>
                         @foreach ($jobs as $job)
                             <tr>
-                                <td class="font-semibold text-heading">{{ $job->title }}</td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <span class="icon-chip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2" /><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                                        </span>
+                                        <span class="font-semibold text-heading">{{ $job->title }}</span>
+                                    </div>
+                                </td>
                                 <td class="text-paragraph">{{ $job->applications_count }}</td>
                                 <td>
                                     <span class="{{ $job->status === 'open' ? 'badge-success' : ($job->status === 'hired' ? 'badge-info' : 'badge-neutral') }}">

@@ -36,7 +36,7 @@
                 </div>
             @empty
                 <div class="empty-state md:col-span-2 lg:col-span-3">
-
+                    <div class="empty-state-icon">💼</div>
                     <p class="font-semibold text-heading">No open jobs right now</p>
                     <p class="text-sm text-paragraph">Check back soon for new opportunities.</p>
                 </div>
@@ -61,7 +61,7 @@
                 @foreach(\App\Models\Category::withCount('jobs')->take(8)->get() as $category)
                     <a href="{{ route('categories.show', $category) }}" class="card card-hover flex items-center gap-4 p-5">
                         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 text-lg font-bold">
-                            #
+                            {{ strtoupper(substr($category->name, 0, 1)) }}
                         </div>
                         <div>
                             <div class="font-semibold text-heading">{{ $category->name }}</div>

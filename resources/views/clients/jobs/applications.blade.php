@@ -65,7 +65,7 @@
         <div class="mt-6">{{ $applications->links() }}</div>
     @else
         <div class="empty-state">
-            <div class="empty-state-icon">📄</div>
+
             <p class="font-semibold text-heading">No applications yet</p>
             <p class="text-sm text-paragraph">Applicants for this job will appear here.</p>
         </div>
