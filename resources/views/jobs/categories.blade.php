@@ -16,8 +16,8 @@
         <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @forelse ($categories as $category)
                 <a href="{{ route('categories.show', $category) }}" class="card card-hover flex items-center gap-4 p-5">
-                 <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 text-lg font-bold">
-                        #
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 text-lg font-bold">
+                        {{ strtoupper(substr($category->name, 0, 1)) }}
                     </div>
                     <div>
                         <div class="font-semibold text-heading">{{ $category->name }}</div>

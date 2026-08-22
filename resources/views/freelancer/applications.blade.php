@@ -47,7 +47,7 @@
         <div class="mt-6">{{ $applications->links() }}</div>
     @else
         <div class="empty-state">
-            <div class="empty-state-icon">📄</div>
+
             <p class="font-semibold text-heading">You haven't applied to any jobs yet</p>
             <p class="text-sm text-paragraph">Browse open jobs that match your skills and submit your first application.</p>
             <a href="{{ route('jobs.index') }}" class="btn-primary mt-4">Browse Jobs</a>

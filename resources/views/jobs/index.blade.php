@@ -47,7 +47,7 @@
             <div class="mt-8">{{ $jobs->links() }}</div>
         @else
             <div class="empty-state mt-10">
-                <div class="empty-state-icon">💼</div>
+
                 <p class="font-semibold text-heading">No open jobs right now</p>
                 <p class="text-sm text-paragraph">Check back soon for new opportunities.</p>
             </div>
