@@ -102,7 +102,8 @@ button, input, select, textarea { font: inherit; }
 
 /* ============ BUTTONS ============ */
 .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-primary transition duration-150 shadow-xs;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white bg-primary transition duration-150;
+    box-shadow: 0 1px 2px rgba(16, 19, 35, 0.05);
 }
 .btn-primary:hover { background: #09322D; transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
@@ -149,6 +150,64 @@ button, input, select, textarea { font: inherit; }
     @apply action-btn border-success-100 bg-success-50 text-success-600;
 }
 .action-btn-approve:hover { background: #D1FADF; }
+
+/* Gradient avatar chip (used for user/client initials) */
+.avatar-chip {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white;
+    background: linear-gradient(135deg, #0F5B54, #0EA5B7);
+}
+.avatar-chip-sm {
+    @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white;
+    background: linear-gradient(135deg, #0F5B54, #0EA5B7);
+}
+
+/* Icon chip for table rows (job/category icons) */
+.icon-chip {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-paragraph;
+}
+
+/* Hero gradient stat card with embedded chart */
+.stat-hero {
+    @apply rounded-2xl p-5 text-white relative overflow-hidden;
+    background: linear-gradient(135deg, #0F5B54, #1B7C6A);
+}
+.stat-hero::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 140px;
+    height: 140px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* Branded welcome band used at the top of dashboards */
+.welcome-band {
+    @apply relative overflow-hidden rounded-2xl px-6 py-5 sm:px-7 sm:py-6;
+    background: linear-gradient(120deg, #0C463F 0%, #0F5B54 45%, #0EA5B7 100%);
+}
+.welcome-band::before {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+}
+.welcome-band::after {
+    content: '';
+    position: absolute;
+    right: 60px;
+    bottom: -70px;
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    background: rgba(225,154,44,0.25);
+    filter: blur(8px);
+}
 
 .row-actions { @apply flex items-center gap-2; }
 

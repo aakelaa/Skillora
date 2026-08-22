@@ -4,18 +4,18 @@
 
 @section('content')
 
-    <div class="page-header">
-        <div>
-            <h1 class="page-title">Manage accounts</h1>
-            <p class="page-subtitle">Search, approve, and manage client and freelancer accounts.</p>
+    <div class="welcome-band mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="relative z-10">
+            <h1 class="text-xl font-bold text-white sm:text-2xl">Manage accounts</h1>
+            <p class="mt-1 text-sm text-primary-100">Search, approve, and manage client and freelancer accounts.</p>
         </div>
-        <div class="flex flex-col gap-3 sm:flex-row">
+        <div class="relative z-10 flex flex-col gap-3 sm:flex-row">
             <form method="GET" class="flex gap-2">
                 <input type="text" name="search" placeholder="Search name or email..." value="{{ request('search') }}" class="!w-64" />
-                <button type="submit" class="btn-secondary">Search</button>
+                <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white/15 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25">Search</button>
             </form>
-            <a href="{{ route('admin.users.create') }}" class="btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            <a href="{{ route('admin.users.create') }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-secondary px-5 py-2.5 text-sm font-bold shadow-lg transition hover:-translate-y-0.5" style="color:#3A2708;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 Add Client
             </a>
         </div>
@@ -39,9 +39,7 @@
                             <tr>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-sm font-bold text-primary-600">
-                                            {{ strtoupper(substr($user->name, 0, 1)) }}
-                                        </span>
+                                        <span class="avatar-chip">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
                                         <span class="font-semibold text-heading">{{ $user->name }}</span>
                                     </div>
                                 </td>

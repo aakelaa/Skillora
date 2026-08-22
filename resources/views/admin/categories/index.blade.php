@@ -3,13 +3,13 @@
 @section('title', 'Manage Categories')
 
 @section('content')
-    <div class="page-header">
-        <div>
-            <h1 class="page-title">Categories</h1>
-            <p class="page-subtitle">Create and manage service categories for premium project matches.</p>
+    <div class="welcome-band mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="relative z-10">
+            <h1 class="text-xl font-bold text-white sm:text-2xl">Categories</h1>
+            <p class="mt-1 text-sm text-primary-100">Create and manage service categories for premium project matches.</p>
         </div>
-        <a href="{{ route('admin.categories.create') }}" class="btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+        <a href="{{ route('admin.categories.create') }}" class="relative z-10 inline-flex items-center justify-center gap-2 self-start rounded-xl bg-secondary px-5 py-2.5 text-sm font-bold shadow-lg transition hover:-translate-y-0.5" style="color:#3A2708;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
             New Category
         </a>
     </div>
@@ -30,8 +30,8 @@
                             <tr>
                                 <td>
                                     <div class="flex items-center gap-3">
-                                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-sm font-bold text-primary-600">
-                                            {{ strtoupper(substr($category->name, 0, 1)) }}
+                                        <span class="icon-chip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2" /><path stroke-linecap="round" stroke-linejoin="round" d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
                                         </span>
                                         <span class="font-semibold text-heading">{{ $category->name }}</span>
                                     </div>
