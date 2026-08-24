@@ -4,26 +4,6 @@
 
 @section('content')
 
-    @php
-        // Dynamic 7-day applications trend (for this freelancer only) for the hero chart.
-        // Adjust the column name below if it differs in your app (e.g. user_id).
-        $trendDays = collect(range(6, 0))->map(fn ($i) => \Carbon\Carbon::today()->subDays($i));
-        $trendCounts = $trendDays->map(
-            fn ($day) => \App\Models\Application::whereDate('created_at', $day)
-                ->where('freelancer_id', auth()->id())
-                ->count()
-        );
-        $trendMax = max($trendCounts->max(), 1);
-        $chartWidth = 220;
-        $chartHeight = 40;
-        $stepX = $chartWidth / max($trendCounts->count() - 1, 1);
-        $points = $trendCounts->values()->map(function ($count, $i) use ($stepX, $trendMax, $chartHeight) {
-            $x = round($i * $stepX, 1);
-            $y = round($chartHeight - 4 - (($count / $trendMax) * ($chartHeight - 8)), 1);
-            return "{$x},{$y}";
-        })->implode(' ');
-        $weeklyTotal = $trendCounts->sum();
-    @endphp
 
     <div class="welcome-band mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="relative z-10">
@@ -37,16 +17,7 @@
 
     <div class="grid gap-4 lg:grid-cols-[1.3fr_1fr_1fr] mb-10">
 
-        <!-- Hero stat with dynamic sparkline -->
-        <div class="stat-hero">
-            <div class="relative z-10">
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary-100">Applications this week</p>
-                <p class="mt-1 text-3xl font-extrabold">{{ $weeklyTotal }}</p>
-                <svg class="mt-3 w-full" height="{{ $chartHeight }}" viewBox="0 0 {{ $chartWidth }} {{ $chartHeight }}" preserveAspectRatio="none">
-                    <polyline points="{{ $points }}" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </div>
-        </div>
+
 
         <div class="stat-card">
             <div class="stat-icon bg-secondary-50 text-secondary-700">

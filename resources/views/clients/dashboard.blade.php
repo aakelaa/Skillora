@@ -4,27 +4,6 @@
 
 @section('content')
 
-    @php
-        // Dynamic 7-day applications trend (for this client's jobs only) for the hero chart.
-        // Adjust the relation/column names below if they differ in your app.
-        $trendDays = collect(range(6, 0))->map(fn ($i) => \Carbon\Carbon::today()->subDays($i));
-        $trendCounts = $trendDays->map(
-            fn ($day) => \App\Models\Application::whereDate('created_at', $day)
-                ->whereHas('job', fn ($q) => $q->where('client_id', auth()->id()))
-                ->count()
-        );
-        $trendMax = max($trendCounts->max(), 1);
-        $chartWidth = 220;
-        $chartHeight = 40;
-        $stepX = $chartWidth / max($trendCounts->count() - 1, 1);
-        $points = $trendCounts->values()->map(function ($count, $i) use ($stepX, $trendMax, $chartHeight) {
-            $x = round($i * $stepX, 1);
-            $y = round($chartHeight - 4 - (($count / $trendMax) * ($chartHeight - 8)), 1);
-            return "{$x},{$y}";
-        })->implode(' ');
-        $weeklyTotal = $trendCounts->sum();
-    @endphp
-
     <div class="welcome-band mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="relative z-10">
             <h2 class="text-xl font-bold text-white sm:text-2xl">Welcome, {{ auth()->user()->name }}! 👋</h2>

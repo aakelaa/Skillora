@@ -26,18 +26,18 @@
                     <button type="submit" class="btn-primary shrink-0">Search jobs</button>
                 </form>
 
-                <div class="flex flex-wrap gap-8 pt-2">
-                    <div>
+                <div class="grid grid-cols-3 gap-3 pt-2 sm:gap-4">
+                    <div class="card card-hover flex flex-col items-center justify-center gap-1 px-3 py-4 text-center">
                         <p class="text-2xl font-extrabold text-heading">{{ \App\Models\Job::open()->count() }}+</p>
-                        <p class="text-sm text-muted">Jobs listed</p>
+                        <p class="text-xs font-medium text-muted sm:text-sm">Jobs listed</p>
                     </div>
-                    <div>
+                    <div class="card card-hover flex flex-col items-center justify-center gap-1 px-3 py-4 text-center">
                         <p class="text-2xl font-extrabold text-heading">{{ \App\Models\User::where('role','freelancer')->count() }}+</p>
-                        <p class="text-sm text-muted">Freelancers</p>
+                        <p class="text-xs font-medium text-muted sm:text-sm">Freelancers</p>
                     </div>
-                    <div>
+                    <div class="card card-hover flex flex-col items-center justify-center gap-1 px-3 py-4 text-center">
                         <p class="text-2xl font-extrabold text-heading">{{ \App\Models\User::where('role','client')->count() }}+</p>
-                        <p class="text-sm text-muted">Clients</p>
+                        <p class="text-xs font-medium text-muted sm:text-sm">Clients</p>
                     </div>
                 </div>
             </div>

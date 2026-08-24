@@ -166,21 +166,7 @@ button, input, select, textarea { font: inherit; }
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-background text-paragraph;
 }
 
-/* Hero gradient stat card with embedded chart */
-.stat-hero {
-    @apply rounded-2xl p-5 text-white relative overflow-hidden;
-    background: linear-gradient(135deg, #0F5B54, #1B7C6A);
-}
-.stat-hero::after {
-    content: '';
-    position: absolute;
-    right: -20px;
-    bottom: -20px;
-    width: 140px;
-    height: 140px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.08);
-}
+
 
 /* Branded welcome band used at the top of dashboards */
 .welcome-band {
