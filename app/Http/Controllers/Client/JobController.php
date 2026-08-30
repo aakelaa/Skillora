@@ -92,14 +92,14 @@ class JobController extends Controller
         return redirect()->route('clients.jobs.index')->with('success', 'Job deleted.');
     }
      // GET /client/jobs/{job}/applications
-    public function applications(Job $job)
-    {
-        $this->authorizeOwner($job);
+  public function applications(Job $job)
+{
+    $this->authorizeOwner($job);
 
-        $applications = $job->applications()->with('freelancer')->latest()->get();
+    $applications = $job->applications()->with('freelancer')->latest()->paginate(10);
 
-        return view('clients.jobs.applications', compact('job', 'applications'));
-    }
+    return view('clients.jobs.applications', compact('job', 'applications'));
+}
 
     // PUT /client/applications/{application}/hire
     public function hire(Application $application)

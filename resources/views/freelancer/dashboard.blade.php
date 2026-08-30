@@ -15,7 +15,8 @@
         </a>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-[1.3fr_1fr_1fr] mb-10">
+    <div class="grid gap-4 sm:grid-cols-2 mb-10">
+
 
 
 

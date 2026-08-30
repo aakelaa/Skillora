@@ -12,17 +12,15 @@
                     <p class="max-w-xl text-lg text-paragraph">We bring together vetted professionals and ambitious projects in a polished experience that makes hiring easy, transparent, and efficient.</p>
 
                     <div class="grid gap-5 sm:grid-cols-2">
-                        <div class="card-padded">
-
-                            <h3 class="font-bold text-heading">Our Mission</h3>
-                            <p class="mt-2 text-sm text-paragraph">Empower freelancers and help clients scale with trusted talent.</p>
-                        </div>
-                        <div class="card-padded">
-
-                            <h3 class="font-bold text-heading">Our Vision</h3>
-                            <p class="mt-2 text-sm text-paragraph">Create a modern freelance marketplace built for premium teams.</p>
-                        </div>
-                    </div>
+    <div class="card-padded card-hover">
+        <h3 class="font-bold text-heading">Our Mission</h3>
+        <p class="mt-2 text-sm text-paragraph">Empower freelancers and help clients scale with trusted talent.</p>
+    </div>
+    <div class="card-padded card-hover">
+        <h3 class="font-bold text-heading">Our Vision</h3>
+        <p class="mt-2 text-sm text-paragraph">Create a modern freelance marketplace built for premium teams.</p>
+    </div>
+</div>
                 </div>
 
                 <div class="card-padded">

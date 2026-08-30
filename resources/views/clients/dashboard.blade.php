@@ -6,7 +6,7 @@
 
     <div class="welcome-band mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="relative z-10">
-            <h2 class="text-xl font-bold text-white sm:text-2xl">Welcome, {{ auth()->user()->name }}! 👋</h2>
+            <h2 class="text-xl font-bold text-white sm:text-2xl">Welcome, {{ auth()->user()->name }}!</h2>
             <p class="mt-1 text-sm text-primary-100">Track your jobs, applications, and hiring activity in one polished dashboard.</p>
         </div>
         <a href="{{ route('clients.jobs.create') }}" class="relative z-10 inline-flex items-center justify-center gap-2 self-start rounded-xl bg-secondary px-5 py-2.5 text-sm font-bold shadow-lg transition hover:-translate-y-0.5" style="color:#3A2708;">
@@ -15,18 +15,9 @@
         </a>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-[1.3fr_1fr_1fr] mb-10">
+    <div class="grid gap-4 sm:grid-cols-2 mb-10">
 
-        <!-- Hero stat with dynamic sparkline -->
-        <div class="stat-hero">
-            <div class="relative z-10">
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary-100">Applications this week</p>
-                <p class="mt-1 text-3xl font-extrabold">{{ $weeklyTotal }}</p>
-                <svg class="mt-3 w-full" height="{{ $chartHeight }}" viewBox="0 0 {{ $chartWidth }} {{ $chartHeight }}" preserveAspectRatio="none">
-                    <polyline points="{{ $points }}" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </div>
-        </div>
+
 
         <div class="stat-card">
             <div class="stat-icon bg-primary-50 text-primary-600">
@@ -103,7 +94,7 @@
         </div>
     @else
         <div class="empty-state">
-            <div class="empty-state-icon">💼</div>
+
             <p class="font-semibold text-heading">You haven't posted any jobs yet</p>
             <p class="text-sm text-paragraph">Post your first job to start receiving applications.</p>
             <a href="{{ route('clients.jobs.create') }}" class="btn-primary mt-4">+ Post a Job</a>

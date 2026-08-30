@@ -27,7 +27,7 @@
 
                         <div>
                             <p class="text-xs font-semibold uppercase tracking-wider text-muted">Phone</p>
-                            <p class="text-sm font-semibold text-heading">+92 329 4068456</p>
+                            <p class="text-sm font-semibold text-heading">+92 321 478390</p>
                         </div>
                     </div>
                 </div>

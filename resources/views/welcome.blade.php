@@ -24,7 +24,7 @@
                             <h3 class="text-lg font-bold text-heading">{{ $job->title }}</h3>
                             <p class="mt-1.5 text-sm text-muted">{{ $job->category->name ?? 'General' }} · {{ $job->client->name }}</p>
                         </div>
-                        <span class="badge-info shrink-0">{{ $job->budget_formatted ?? $job->budget }}</span>
+                        <span class="badge-info shrink-0">{{ $job->budget ?? $job->budget }}</span>
                     </div>
 
                     <p class="mt-4 flex-1 text-sm text-paragraph">{{ Str::limit($job->description, 120) }}</p>
@@ -36,7 +36,7 @@
                 </div>
             @empty
                 <div class="empty-state md:col-span-2 lg:col-span-3">
-                    <div class="empty-state-icon">💼</div>
+
                     <p class="font-semibold text-heading">No open jobs right now</p>
                     <p class="text-sm text-paragraph">Check back soon for new opportunities.</p>
                 </div>

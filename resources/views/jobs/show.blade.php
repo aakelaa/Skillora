@@ -53,7 +53,7 @@
             @endif
         @else
             <div class="card-padded flex items-center gap-4">
-                <span class="stat-icon bg-primary-50 text-primary-600 !h-11 !w-11">🔒</span>
+
                 <p class="text-sm text-paragraph">Want to apply? <a href="{{ route('login') }}" class="font-semibold text-primary hover:text-primary-700">Log in</a> as a freelancer to submit your application.</p>
             </div>
         @endauth
